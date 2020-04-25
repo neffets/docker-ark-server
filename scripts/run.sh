@@ -15,10 +15,11 @@ STAGING_DIR="${DATA_DIR}/staging"
 SERVER_DIR="${DATA_DIR}/server"
 CONFIG_DIR="${DATA_DIR}/config"
 TEMPLATE_DIR="${DATA_DIR}/template"
+SAVES_DIR="${DATA_DIR}/saves"
 
 
 # Create Directories
-directories=( ${LOG_DIR} ${BACKUP_DIR} ${STAGING_DIR} ${SERVER_DIR} ${CONFIG_DIR} )
+directories=( ${LOG_DIR} ${BACKUP_DIR} ${STAGING_DIR} ${SERVER_DIR} ${CONFIG_DIR} ${SAVES_DIR} )
 for i in "${directories[@]}"
 do
 	mkdir -p $i
