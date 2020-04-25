@@ -23,24 +23,24 @@ This image uses [Ark Server Tools](https://github.com/FezVrasta/ark-server-tools
 ## Usage
 Fast & Easy server setup :   
 ```sh
-docker run -d -p 7778:7778 -p 7778:7778/udp -p 27015:27015 -p 27015:27015/udp -e SESSION_NAME=myserver -e ADMIN_PASSWORD="mypasswordadmin" --name ark-server mbround18/ark-docker`
+docker run -d -p 7778:7778 -p 7778:7778/udp -p 27015:27015 -p 27015:27015/udp -e SESSION_NAME=myserver -e ADMIN_PASSWORD="mypasswordadmin" --name ark-server mbround18/ark-server:1.0`
 ```
 
 You can map the ark volume to access config files :  
 ```sh
-docker run -d -p 7778:7778 -p 7778:7778/udp -p 27015:27015 -p 27015:27015/udp -e SESSION_NAME=myserver -v /my/path/to/ark:/ark --name ark-server mbround18/ark-docker
+docker run -d -p 7778:7778 -p 7778:7778/udp -p 27015:27015 -p 27015:27015/udp -e SESSION_NAME=myserver -v /my/path/to/ark:/ark --name ark-server mbround18/ark-server:1.0
 ```
 Then you can edit */my/path/to/ark/config/arkmanager.cfg* (the values override GameUserSetting.ini) and */my/path/to/ark/config/[GameUserSetting.ini/Game.ini]*
 
 You can manager your server with rcon if you map the rcon port (you can rebind the rcon port with docker):  
 ```sh
-docker run -d -p 7778:7778 -p 7778:7778/udp -p 27015:27015 -p 27015:27015/udp -p 32330:32330  -e SESSION_NAME=myserver --name ark-server mbround18/ark-docker`  
+docker run -d -p 7778:7778 -p 7778:7778/udp -p 27015:27015 -p 27015:27015/udp -p 32330:32330  -e SESSION_NAME=myserver --name ark-server mbround18/ark-server:1.0`  
 ```
 
 You can change server and steam port to allow multiple servers on same host:  
 *(You can't just rebind the port with docker. It won't work, you need to change STEAM_PORT & SERVER_PORT variable)*
 ```sh
-docker run -d -p 7779:7779 -p 7779:7779/udp -p 27016:27016 -p 27016:27016/udp -p 32331:32330  -e SESSION_NAME=myserver2 -e SERVER_PORT=27016 -e STEAM_PORT=7779 --name ark2-server mbround18/ark-docker
+docker run -d -p 7779:7779 -p 7779:7779/udp -p 27016:27016 -p 27016:27016/udp -p 32331:32330  -e SESSION_NAME=myserver2 -e SERVER_PORT=27016 -e STEAM_PORT=7779 --name ark2-server mbround18/ark-server:1.0
 ```
 
 
@@ -83,7 +83,7 @@ To add mods, you only need to change the variable ark_GameModIds in *arkmanager.
 
 ## Recommended Usage
 - First run  
- `docker run -it -p 7778:7778 -p 7778:7778/udp -p 27015:27015 -p 27015:27015/udp -p 32330:32330 -e SESSION_NAME=myserver -e ADMIN_PASSWORD="mypasswordadmin" -e AUTOUPDATE=120 -e AUTOBACKUP=60 -e WARNMINUTE=30 -v /my/path/to/ark:/ark --name ark-server mbround18/ark-docker`  
+ `docker run -it -p 7778:7778 -p 7778:7778/udp -p 27015:27015 -p 27015:27015/udp -p 32330:32330 -e SESSION_NAME=myserver -e ADMIN_PASSWORD="mypasswordadmin" -e AUTOUPDATE=120 -e AUTOBACKUP=60 -e WARNMINUTE=30 -v /my/path/to/ark:/ark --name ark-server mbround18/ark-server:1.0`  
 - Wait for ark to be downloaded installed and launched, then Ctrl+C to stop the server.
 - Edit */my/path/to/ark/config/GameUserSetting.ini and Game.ini*
 - Edit */my/path/to/ark/config/arkserver.cfg* to add mods and configure warning time.
