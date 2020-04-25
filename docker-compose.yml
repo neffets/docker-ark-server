@@ -2,15 +2,15 @@ ark:
   container_name: ark
   image: turzam/ark
   environment:
-    - SESSIONNAME=Ark Docker
-    - SERVERMAP=TheIsland
-    - SERVERPASSWORD="" 
-    - ADMINPASSWORD=adminpassword
-    - BACKUPONSTART=1
-    - UPDATEONSTART=1
+    - SESSION_NAME=Ark Docker
+    - SERVER_MAP=TheIsland
+    - SERVER_PASSWORD="" 
+    - ADMIN_PASSWORD=ADMIN_PASSWORD
+    - BACKUP_ON_START=1
+    - UPDATE_ON_START=1
     - TZ=Europe/Paris
-    - GID=1000
-    - UID=1000
+    - STEAM_GID=1000
+    - STEAM_UID=1000
   volumes:
     - /my/path/to/ark:/ark
   ports:

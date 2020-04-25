@@ -1,71 +1,90 @@
-FROM ubuntu:14.04
+FROM cm2network/steamcmd:root
 
-MAINTAINER TuRzAm
+ENV DATA_DIR "/var/lib/ark"
 
 # Var for first config
 # Server Name
-ENV SESSIONNAME "Ark Docker"
+ENV SESSION_NAME "Ark Docker"
+
 # Map name
-ENV SERVERMAP "TheIsland"
+ENV SERVER_MAP "TheIsland"
+
 # Server password
-ENV SERVERPASSWORD ""
+ENV SERVER_PASSWORD ""
+
 # Admin password
-ENV ADMINPASSWORD "adminpassword"
+ENV ADMIN_PASSWORD "admin"
+
 # Nb Players
-ENV NBPLAYERS 70
+ENV MAX_PLAYERS 70
+
 # If the server is updating when start with docker start
-ENV UPDATEONSTART 1
+ENV UPDATE_ON_START 0
+
 # if the server is backup when start with docker start
-ENV BACKUPONSTART 1
+ENV BACKUP_ON_START 0
+
 #  Tag on github for ark server tools
-ENV GIT_TAG v1.5
+ENV GIT_TAG v1.6.51
+
 # Server PORT (you can't remap with docker, it doesn't work)
-ENV SERVERPORT 27015
+ENV SERVER_PORT 27015
+
 # Steam port (you can't remap with docker, it doesn't work)
-ENV STEAMPORT 7778
+ENV STEAM_PORT 7778
+
 # if the server should backup after stopping
-ENV BACKUPONSTOP 0
+ENV BACKUP_ON_STOP 0
+
 # If the server warn the players before stopping
-ENV WARNONSTOP 0
-# UID of the user steam
-ENV UID 1000
-# GID of the user steam
-ENV GID 1000
+ENV WARN_ON_STOP 0
+
+# STEAM_UID of the user steam
+ENV STEAM_UID 1000
+
+# STEAM_GID of the user steam
+ENV STEAM_GID 1000
+
+ENV ARKST_CHANNEL "master"
 
 # Install dependencies 
 RUN apt-get update &&\ 
-    apt-get install -y curl lib32gcc1 lsof git
+    apt-get install -y \
+	sudo \
+	git \
+	perl-modules \
+	curl \
+	lsof \
+	libc6-i386 \
+	lib32gcc1
 
 # Enable passwordless sudo for users under the "sudo" group
 RUN sed -i.bkp -e \
 	's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers \
 	/etc/sudoers
 
-# Run commands as the steam user
-RUN adduser \ 
-	--disabled-login \ 
-	--shell /bin/bash \ 
-	--gecos "" \ 
-	steam
-# Add to sudo group
 RUN usermod -a -G sudo steam
 
 # Copy & rights to folders
-COPY run.sh /home/steam/run.sh
-COPY user.sh /home/steam/user.sh
-COPY crontab /home/steam/crontab
-COPY arkmanager-user.cfg /home/steam/arkmanager.cfg
+COPY scripts/run.sh /home/steam/run.sh
+COPY scripts/user.sh /home/steam/user.sh
+COPY config/crontab.cfg /home/steam/crontab
+COPY config/arkmanager-user.cfg /home/steam/arkmanager.cfg
 
 RUN touch /root/.bash_profile
-RUN chmod 777 /home/steam/run.sh
-RUN chmod 777 /home/steam/user.sh
-RUN mkdir  /ark
+RUN chmod +rx /home/steam/run.sh
+RUN chmod +rx /home/steam/user.sh
 
+# Setup directories
+RUN mkdir -p ${DATA_DIR}
 
 # We use the git method, because api github has a limit ;)
-RUN  git clone https://github.com/FezVrasta/ark-server-tools.git /home/steam/ark-server-tools
+RUN  git clone --branch $GIT_TAG https://github.com/FezVrasta/ark-server-tools.git /home/steam/ark-server-tools
+
+# Set working dir for server tool install
 WORKDIR /home/steam/ark-server-tools/
 RUN  git checkout $GIT_TAG 
+
 # Install 
 WORKDIR /home/steam/ark-server-tools/tools
 RUN chmod +x install.sh 
@@ -75,33 +94,33 @@ RUN ./install.sh steam
 RUN ln -s /usr/local/bin/arkmanager /usr/bin/arkmanager
 
 # Define default config file in /etc/arkmanager
-COPY arkmanager-system.cfg /etc/arkmanager/arkmanager.cfg
+COPY config/arkmanager-system.cfg /etc/arkmanager/arkmanager.cfg
 
 # Define default config file in /etc/arkmanager
-COPY instance.cfg /etc/arkmanager/instances/main.cfg
+COPY config/instance.cfg /etc/arkmanager/instances/main.cfg
 
-RUN chown steam -R /ark && chmod 755 -R /ark
+RUN chown steam -R ${DATA_DIR} && chmod 755 -R ${DATA_DIR}
 
-#USER steam 
+# #USER steam 
 
-# download steamcmd
-RUN mkdir /home/steam/steamcmd &&\ 
-	cd /home/steam/steamcmd &&\ 
-	curl http://media.steampowered.com/installer/steamcmd_linux.tar.gz | tar -vxz 
+# # download steamcmd
+# RUN mkdir /home/steam/steamcmd &&\ 
+# 	cd /home/steam/steamcmd &&\ 
+# 	curl http://media.steampowered.com/installer/steamcmd_linux.tar.gz | tar -vxz 
 
 
 # First run is on anonymous to download the app
 # We can't download from docker hub anymore -_-
 #RUN /home/steam/steamcmd/steamcmd.sh +login anonymous +quit
 
-EXPOSE ${STEAMPORT} 32330 ${SERVERPORT}
+EXPOSE ${STEAM_PORT} 32330 ${SERVER_PORT}
 # Add UDP
-EXPOSE ${STEAMPORT}/udp ${SERVERPORT}/udp
+EXPOSE ${STEAM_PORT}/udp ${SERVER_PORT}/udp
 
-VOLUME  /ark 
+# VOLUME ${DATA_DIR} 
 
-# Change the working directory to /arkd
-WORKDIR /ark
+# Change the working directory to ${DATA_DIR}d
+WORKDIR ${DATA_DIR}
 
 # Update game launch the game.
 ENTRYPOINT ["/home/steam/user.sh"]
