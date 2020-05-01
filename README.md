@@ -128,7 +128,8 @@ STEAM_GID of the user used. Owner of the volume ${DATA_DIR}
 --- 
 
 ## Volumes
-+ __/ark__ : Working directory :
++ __/var/lib/ark__ : Working directory :
+    + ${DATA_DIR}/server : Server files and data.
     + ${DATA_DIR}/server : Server files and data.
     + ${DATA_DIR}/log : logs
     + ${DATA_DIR}/backup : backups
@@ -152,6 +153,8 @@ STEAM_GID of the user used. Owner of the volume ${DATA_DIR}
 
 ## Known issues
 
+ - Editing configs on a kubernetes cluster can be difficult. 
+ - Adding mods and enabling them is a bit funky
 
 --- 
 
@@ -180,7 +183,6 @@ spec:
     requests:
       storage: 20G
 
----
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -246,8 +248,6 @@ spec:
       protocol: UDP
   selector:
     app: ark-server
-
-
 ```
 
 ---
