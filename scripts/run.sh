@@ -65,6 +65,9 @@ cp /home/steam/crontab ${TEMPLATE_DIR}/crontab
 # Create arkmanager config if it doesnt exist
 [ ! -f ${ARK_MANAGER_CFG_FILE} ] && cp /home/steam/arkmanager.cfg ${ARK_MANAGER_CFG_FILE}
 
+if [ ! $(cmp -s "/home/steam/arkmanager.cfg" "${ARK_MANAGER_CFG_FILE}") ]; then
+	cp /home/steam/arkmanager.cfg "${ARK_MANAGER_CFG_FILE}.readme"
+fi
 
 # Creating symbolic links
 [ ! -L ${GAME_INI_FILE} ] && ln -s ${SERVER_DIR}/ShooterGame/Saved/Config/LinuxServer/Game.ini ${GAME_INI_FILE}
@@ -114,4 +117,5 @@ trap stop INT
 trap stop TERM
 
 read < /tmp/FIFO &
+tail -f ${LOG_DIR}/*.log
 wait

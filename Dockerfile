@@ -101,23 +101,9 @@ COPY config/instance.cfg /etc/arkmanager/instances/main.cfg
 
 RUN chown steam -R ${DATA_DIR} && chmod 755 -R ${DATA_DIR}
 
-# #USER steam 
-
-# # download steamcmd
-# RUN mkdir /home/steam/steamcmd &&\ 
-# 	cd /home/steam/steamcmd &&\ 
-# 	curl http://media.steampowered.com/installer/steamcmd_linux.tar.gz | tar -vxz 
-
-
-# First run is on anonymous to download the app
-# We can't download from docker hub anymore -_-
-#RUN /home/steam/steamcmd/steamcmd.sh +login anonymous +quit
-
 EXPOSE ${STEAM_PORT} 32330 ${SERVER_PORT}
 # Add UDP
 EXPOSE ${STEAM_PORT}/udp ${SERVER_PORT}/udp
-
-# VOLUME ${DATA_DIR} 
 
 # Change the working directory to ${DATA_DIR}d
 WORKDIR ${DATA_DIR}
