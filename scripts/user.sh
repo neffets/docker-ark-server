@@ -18,4 +18,4 @@ chown -R steam:steam ${DATA_DIR} /home/steam
 chmod -R +r /root
 
 # Launch run.sh with user steam (-p allow to keep env variables)
-sudo -Eu steam bash -c /home/steam/run.sh
+sudo -E -u steam HOME=/home/steam bash -c /home/steam/run.sh
