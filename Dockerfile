@@ -1,6 +1,6 @@
 FROM cm2network/steamcmd:root
 
-ENV DATA_DIR "/var/lib/ark"
+ENV DATA_DIR "/ark"
 
 # Var for first config
 # Server Name
@@ -25,7 +25,7 @@ ENV UPDATE_ON_START 0
 ENV BACKUP_ON_START 0
 
 #  Tag on github for ark server tools
-ENV GIT_TAG v1.6.51
+ENV GIT_TAG v1.6.53
 
 # Server PORT (you can't remap with docker, it doesn't work)
 ENV SERVER_PORT 27015
@@ -51,6 +51,7 @@ ENV ARKST_CHANNEL "master"
 RUN apt-get update &&\ 
     apt-get install -y \
 	sudo \
+    cron \
 	git \
 	perl-modules \
 	curl \

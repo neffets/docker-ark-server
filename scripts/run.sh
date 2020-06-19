@@ -2,6 +2,7 @@
 echo "###########################################################################"
 echo "# Ark Server - " `date`
 echo "# STEAM_UID $STEAM_UID - STEAM_GID $STEAM_GID"
+echo "# DATA_DIR $DATA_DIR - HOME $HOME"
 echo "###########################################################################"\
 
 # Change working directory to ${DATA_DIR} to allow relative path
