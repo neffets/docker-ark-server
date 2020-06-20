@@ -17,14 +17,16 @@ SERVER_DIR="${DATA_DIR}/server"
 CONFIG_DIR="${DATA_DIR}/config"
 TEMPLATE_DIR="${DATA_DIR}/template"
 SAVES_DIR="${DATA_DIR}/saves"
+INSTANCES_DIR="${DATA_DIR}/instances"
 
 
 # Create Directories
-directories=( ${LOG_DIR} ${BACKUP_DIR} ${STAGING_DIR} ${SERVER_DIR} ${CONFIG_DIR} ${SAVES_DIR} )
+directories=( ${LOG_DIR} ${BACKUP_DIR} ${STAGING_DIR} ${SERVER_DIR} ${CONFIG_DIR} ${SAVES_DIR} ${INSTANCES_DIR} )
 for i in "${directories[@]}"
 do
 	mkdir -p $i
 done
+[ -f "${INSTANCES_DIR}/main.cfg" ] || cp /etc/arkmanager/instances/main.cfg "${INSTANCES_DIR}/main.cfg"
 
 # Ark Manager Configs
 ARK_MANAGER_CFG_FILE="${CONFIG_DIR}/arkmanager.cfg"
