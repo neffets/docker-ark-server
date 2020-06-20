@@ -1,0 +1,53 @@
+version: '3.5'
+
+services:
+  ark:
+    image: neffets/ark-server:1.6
+    environment:
+      - DATA_DIR=/ark
+      - SESSION_NAME=Ark_Docker_ChangeMe
+      - SERVER_MAP=TheIsland
+      - MAX_PLAYERS=10
+      - SERVER_PASSWORD=1234 
+      - ADMIN_PASSWORD=HochGeheim
+      - SERVER_PORT=27015
+      - STEAM_PORT=7777
+      - BACKUP_ON_START=1
+      - BACKUP_ON_STOP=1
+      - WARN_ON_STOP=1
+      - UPDATE_ON_START=1
+      - TZ=UTC
+      - ARK_GID=1000
+      - ARK_UID=1000
+    volumes:
+      - serverfiles:/ark
+    ports:
+      # ports server: 7777 or 7778, steam 27015, rcon 32330
+      - mode: host
+        target: 7777
+        published: 7777
+        protocol: udp
+      - mode: host
+        target: 7777
+        published: 7777
+        protocol: tcp
+      - mode: host
+        target: 7778
+        published: 7778
+        protocol: udp
+      - mode: host
+        target: 7778
+        published: 7778
+        protocol: tcp
+      - mode: host
+        target: 27015
+        published: 27015
+        protocol: udp
+      - mode: host
+        target: 27015
+        published: 27015
+        protocol: tcp
+      #- mode: host
+      #  target: 32330
+      #  published: 32330
+      #  protocol: tcp
