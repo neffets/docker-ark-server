@@ -205,7 +205,7 @@ spec:
       containers:
         - name: ark-server
           imagePullPolicy: Always
-          image: neffets/ark-server:1.5
+          image: neffets/ark-server:1.6
           ports:
             - name: steam
               containerPort: 7778
@@ -275,7 +275,7 @@ spec:
     - Added support for automatically updating on restart
     - Show a spinner when updating
   - Add STEAM_UID & STEAM_GID to set the STEAM_UID & STEAM_GID of the user used in the container (and permissions on the volume ${DATA_DIR})
-+ 1.4, 1.5 :
++ 1.4, 1.5, 1.6 :
   - bugfix for missing configfile_main for multiple instances, use DATA_DIR/instances
 + Rewrite :
   - Added kuberntes support
