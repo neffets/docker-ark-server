@@ -77,7 +77,7 @@ fi
 
 
 
-if [ ! -d ${SERVER_DIR}  ] || [ ! -f ${SERVER_DIR}/arkversion ];then 
+if [ ! -d ${SERVER_DIR}  ] || [ ! -f ${SERVER_DIR}/version.txt ];then 
 	echo "No game files found. Installing..."
 	mkdir -p ${SERVER_DIR}/ShooterGame/Saved/SavedArks
 	mkdir -p ${SERVER_DIR}/ShooterGame/Content/Mods
