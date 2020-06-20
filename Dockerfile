@@ -70,7 +70,7 @@ RUN usermod -a -G sudo steam
 COPY scripts/run.sh /home/steam/run.sh
 COPY scripts/user.sh /home/steam/user.sh
 COPY config/crontab.cfg /home/steam/crontab
-COPY config/arkmanager-user.cfg /home/steam/arkmanager.cfg
+COPY config/arkmanager-user.cfg /home/steam/.arkmanager.cfg
 
 RUN touch /root/.bash_profile
 RUN chmod +rx /home/steam/run.sh

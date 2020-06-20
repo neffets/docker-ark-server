@@ -59,15 +59,15 @@ function stop {
 [ ! -d ${TEMPLATE_DIR} ] && mkdir -p ${TEMPLATE_DIR}
 
 # We overwrite the template file each time
-cp /home/steam/arkmanager.cfg ${TEMPLATE_DIR}/arkmanager.cfg
+cp /home/steam/.arkmanager.cfg ${TEMPLATE_DIR}/arkmanager.cfg
 cp /home/steam/crontab ${TEMPLATE_DIR}/crontab
 
 
 # Create arkmanager config if it doesnt exist
-[ ! -f ${ARK_MANAGER_CFG_FILE} ] && cp /home/steam/arkmanager.cfg ${ARK_MANAGER_CFG_FILE}
+[ ! -f ${ARK_MANAGER_CFG_FILE} ] && cp /home/steam/.arkmanager.cfg ${ARK_MANAGER_CFG_FILE}
 
-if [ ! $(cmp -s "/home/steam/arkmanager.cfg" "${ARK_MANAGER_CFG_FILE}") ]; then
-	cp /home/steam/arkmanager.cfg "${ARK_MANAGER_CFG_FILE}.readme"
+if [ ! $(cmp -s "/home/steam/.arkmanager.cfg" "${ARK_MANAGER_CFG_FILE}") ]; then
+	cp /home/steam/.arkmanager.cfg "${ARK_MANAGER_CFG_FILE}.readme"
 fi
 
 # Creating symbolic links
