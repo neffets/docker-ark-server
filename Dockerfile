@@ -25,7 +25,7 @@ ENV UPDATE_ON_START 0
 ENV BACKUP_ON_START 0
 
 #  Tag on github for ark server tools
-ENV GIT_TAG v1.6.53
+ENV GIT_TAG v1.6.57
 
 # Server PORT (you can't remap with docker, it doesn't work)
 ENV SERVER_PORT 27015
@@ -57,7 +57,8 @@ RUN apt-get update &&\
 	curl \
 	lsof \
 	libc6-i386 \
-	lib32gcc1
+	lib32gcc1 \
+    bzip2
 
 # Enable passwordless sudo for users under the "sudo" group
 RUN sed -i.bkp -e \
@@ -80,7 +81,7 @@ RUN chmod +rx /home/steam/user.sh
 RUN mkdir -p ${DATA_DIR}
 
 # We use the git method, because api github has a limit ;)
-RUN  git clone --branch $GIT_TAG https://github.com/FezVrasta/ark-server-tools.git /home/steam/ark-server-tools
+RUN  git clone --branch $GIT_TAG https://github.com/arkmanager/ark-server-tools.git /home/steam/ark-server-tools
 
 # Set working dir for server tool install
 WORKDIR /home/steam/ark-server-tools/
